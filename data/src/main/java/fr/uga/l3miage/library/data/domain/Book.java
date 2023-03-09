@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedQuery;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Set;
 
 
 @Entity
+@NamedQuery(name="all-books",query = "select b from Book b join b.authors a order by a.fullname" )
 public class Book {
     @Id
     @GeneratedValue
@@ -27,7 +29,7 @@ public class Book {
     @Column(name="publisher")
     private String publisher;
 
-    @Column(name="year")
+    @Column(name="annee")
     private short year;
 
     @Column(name="language")
@@ -35,6 +37,7 @@ public class Book {
 
     @ManyToMany(mappedBy = "books",fetch = FetchType.EAGER)
     private Set<Author> authors;
+
 
     public Long getId() {
         return id;
