@@ -15,7 +15,10 @@ import java.util.Set;
 
 @Entity
 @NamedQuery(name="all-books",query = "select b from Book b order by b.title")
-//@NamedQuery(name="all-books",query = "select b from Book b join b.authors a order by b.title" )
+@NamedQuery(name="find-books-by-title",query="select b from Book b where lower(b.title) like lower(:title)")
+@NamedQuery(name="find-books-by-author-and-title",query = "select b from Book b join b.authors a where a.id=:auteur and lower(b.title) like lower(:title) order by b.title")
+@NamedQuery(name="find-books-by-authors-name",query="select b from Book b join b.authors a where lower(a.fullName) like lower(:name)")
+@NamedQuery(name="find-books-by-several-authors",query="select b from Book b join b.authors a where count(a)>:compte")
 public class Book {
     @Id
     @GeneratedValue
