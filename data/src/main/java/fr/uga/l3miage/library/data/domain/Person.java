@@ -3,12 +3,35 @@ package fr.uga.l3miage.library.data.domain;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.DiscriminatorColumn;;
+
+//J'ai choisis de mettre table per class dans la stratégie de hierarchie car la classe person est abstract. 
+//Comme table per classe permet de créer les tables qui herite de person en répétant les attributs hérités
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 
+@Entity
+@DiscriminatorColumn(name = "gender")
 public abstract class Person {
 
+    @Id
+    @GeneratedValue
     private String id;
+
+    @Column
     private Gender gender;
+
+    @Column
     private String firstName;
+
+    @Column
     private String lastName;
+
+    @Column
     private Date birth;
 
     public enum Gender {
