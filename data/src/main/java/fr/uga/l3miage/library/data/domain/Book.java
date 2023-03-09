@@ -14,7 +14,7 @@ import java.util.Set;
 
 
 @Entity
-@NamedQuery(name="all-books",query = "select b from Book b join b.authors a order by a.fullName")
+@NamedQuery(name="all-books",query = "select b from Book b order by b.title")
 //@NamedQuery(name="all-books",query = "select b from Book b join b.authors a order by b.title" )
 public class Book {
     @Id
