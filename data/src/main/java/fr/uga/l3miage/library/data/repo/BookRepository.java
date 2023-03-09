@@ -76,7 +76,6 @@ public class BookRepository implements CRUDRepository<Long, Book> {
      * @return une liste de livres
      */
     public List<Book> findBooksHavingAuthorCountGreaterThan(int count) {
-        // TODO créer les named query
         return entityManager.createNamedQuery("find-books-by-several-authors", Book.class).setParameter("compte",count).getResultList();
     }
 

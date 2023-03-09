@@ -18,7 +18,7 @@ import java.util.Set;
 @NamedQuery(name="find-books-by-title",query="select b from Book b where lower(b.title) like lower(:title)")
 @NamedQuery(name="find-books-by-author-and-title",query = "select b from Book b join b.authors a where a.id=:auteur and lower(b.title) like lower(:title) order by b.title")
 @NamedQuery(name="find-books-by-authors-name",query="select b from Book b join b.authors a where lower(a.fullName) like lower(:name)")
-@NamedQuery(name="find-books-by-several-authors",query="select b from Book b join b.authors a where count(a)>:compte")
+@NamedQuery(name="find-books-by-several-authors",query="select b from Book b where size(b.authors) >:compte")
 public class Book {
     @Id
     @GeneratedValue
