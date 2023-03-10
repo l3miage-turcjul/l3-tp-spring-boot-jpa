@@ -3,12 +3,17 @@ package fr.uga.l3miage.library.data.domain;
 import java.util.Date;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 // Attention le mot 'user' est reservé
 @Entity
+@DiscriminatorValue(value = "utilisateur")
 public class User extends Person {
+    @Column
     private Date registered;
+    @Column
     private float lateRatio;
 
     public Date getRegistered() {

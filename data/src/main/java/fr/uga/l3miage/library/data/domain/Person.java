@@ -6,6 +6,7 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -13,14 +14,17 @@ import jakarta.persistence.DiscriminatorColumn;;
 
 //J'ai choisis de mettre table per class dans la stratégie de hierarchie car la classe person est abstract. 
 //Comme table per classe permet de créer les tables qui herite de person en répétant les attributs hérités
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 
+
+//ici person a beaucoup plus de champ que les autres sous classes et la hiérarchie est plutôt
+@Inheritance(strategy = InheritanceType.JOINED) 
 @Entity
-@DiscriminatorColumn(name = "gender")
+@DiscriminatorColumn(name = "type")
 public abstract class Person {
 
     @Id
     @GeneratedValue
-    private String id;
+    //private String id;
+    private long id;
 
     @Column
     private Gender gender;
@@ -38,7 +42,11 @@ public abstract class Person {
         FEMALE, MALE, FLUID
     }
 
-    public String getId() {
+    // public String getId() {
+    //     return id;
+    // }
+
+    public long getId() {
         return id;
     }
 
