@@ -49,8 +49,8 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public List<Borrow> findInProgressByUser(long userId) {
     // public List<Borrow> findInProgressByUser(String userId) {
-        // return entityManager.createQuery("select b from Borrow b join b.User u where u.id = :userId", Borrow.class).setParameter("userId", userId).getResultList();
-        return entityManager.createQuery("select b from Borrow b join Borrow.User u", Borrow.class).getResultList();
+        return entityManager.createQuery("select b from Borrow b join b.borrower u where u.id = :userId and b.finished = false", Borrow.class).setParameter("userId", userId).getResultList();
+        // return entityManager.createQuery("select b from Borrow b join b.borrower", Borrow.class).getResultList();
     }
 
     /**
@@ -84,7 +84,7 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public List<Borrow> foundAllLateBorrow() {
         Date dateAct = Date.from((LocalDateTime.now()).atZone(ZoneId.systemDefault()).toInstant());
-        return entityManager.createQuery("select b from Borrow b  where b.requestedReturn < dateAct and finished = false", Borrow.class).setParameter("dateAct", dateAct).getResultList();
+        return entityManager.createQuery("select b from Borrow b where b.requestedReturn < :dateAct and b.finished = false", Borrow.class).setParameter("dateAct", dateAct).getResultList();
     }
 
     /**
@@ -96,7 +96,7 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
     public List<Borrow> findAllBorrowThatWillLateWithin(int days) {
         Date dateDeb = Date.from((LocalDateTime.now()).atZone(ZoneId.systemDefault()).toInstant());
         Date dateFin = Date.from((LocalDateTime.now().plusDays(days)).atZone(ZoneId.systemDefault()).toInstant());
-        return entityManager.createQuery("select b from Borrow b  where b.requestedReturn between :dateDeb and :dateFin and finished = false", Borrow.class).setParameter("dateDeb", dateDeb).setParameter("dateFin", dateFin).getResultList();
+        return entityManager.createQuery("select b from Borrow b where b.requestedReturn between :dateDeb and :dateFin and b.finished = false", Borrow.class).setParameter("dateDeb", dateDeb).setParameter("dateFin", dateFin).getResultList();
     }
 
 }
