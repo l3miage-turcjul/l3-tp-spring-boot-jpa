@@ -6,9 +6,11 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 // Attention le mot 'user' est reservé
 @Entity
+@Table(name="Utilisateur")
 @DiscriminatorValue(value = "utilisateur")
 public class User extends Person {
     @Column
