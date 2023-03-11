@@ -100,13 +100,22 @@ class PersonRepositoryTest extends Base {
 
     @Test
     void findAllOlderThan() {
-
         User u1 = Fixtures.newUser();
         u1.setBirth(Date.from(ZonedDateTime.now().minus(20, ChronoUnit.YEARS).toInstant()));
         User u2 = Fixtures.newUser();
         u2.setBirth(Date.from(ZonedDateTime.now().minus(40, ChronoUnit.YEARS).toInstant()));
         User u3 = Fixtures.newUser();
         u3.setBirth(Date.from(ZonedDateTime.now().minus(45, ChronoUnit.YEARS).toInstant()));
+
+        //tests rajoutées
+        // Librarian l1 = Fixtures.newLibrarian();
+        // entityManager.persist(l1);
+        // Book b1 = Fixtures.newBook();
+        // entityManager.persist(b1);
+        // Borrow br1 = Fixtures.newBorrow(u1, l1, b1);
+        // Borrow br2 = Fixtures.newBorrow(u1, l1, b1);
+        // entityManager.persist(br2);
+        // entityManager.persist(br1);
 
         entityManager.persist(u1);
         entityManager.persist(u2);

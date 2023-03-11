@@ -16,7 +16,7 @@ import jakarta.persistence.DiscriminatorColumn;;
 //Comme table per classe permet de créer les tables qui herite de person en répétant les attributs hérités
 
 //ici person a beaucoup plus de champ que les autres sous classes et la hiérarchie est plutôt
-@Inheritance(strategy = InheritanceType.JOINED) 
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE) //Single Table produit comme son nom l'indique une seule table !
 @Entity
 @DiscriminatorColumn(name = "type")
 public abstract class Person {

@@ -4,13 +4,39 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+
+@Entity
+// @NamedQuery(name="from Borrow",query = "select b from Borrow join Borrow.Book b order by b.title")
 public class Borrow {
+
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @ManyToMany
     private List<Book> books;
+
+    @Column
     private Date start;
+
+    @Column
     private Date requestedReturn;
+
+    @OneToOne
     private User borrower;
+
+    @OneToOne
     private Librarian librarian;
+
+    @Column
     private boolean finished;
 
     public Long getId() {
