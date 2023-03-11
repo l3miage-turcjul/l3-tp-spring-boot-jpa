@@ -61,8 +61,8 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public int countBorrowedBooksByUser(long userId) {
     // public int countBorrowedBooksByUser(String userId) {
-        List<Borrow> res = entityManager.createQuery("select bk from Borrow b join b.Book bk where b.user.id = :userId", Borrow.class).setParameter("userId", userId).getResultList();
-        return res.size();
+        int res = entityManager.createQuery("select count(bk) from Borrow b join b.books bk where b.borrower.id = :userId", int.class).setParameter("userId", userId).getSingleResult();
+        return res;
     }
 
     /**
