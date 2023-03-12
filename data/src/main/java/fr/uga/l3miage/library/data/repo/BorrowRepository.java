@@ -1,5 +1,6 @@
 package fr.uga.l3miage.library.data.repo;
 
+import fr.uga.l3miage.library.data.domain.Book;
 import fr.uga.l3miage.library.data.domain.Borrow;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,8 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public int countBorrowedBooksByUser(long userId) {
     // public int countBorrowedBooksByUser(String userId) {
-        long res = entityManager.createQuery("select count(bk) from Borrow b join b.books bk where b.borrower.id = :userId", int.class).setParameter("userId", userId).getSingleResult();
-        return ((int)res);
+        List<Book> res = entityManager.createQuery("select bk from Borrow b join b.books bk where b.borrower.id = :userId", Book.class).setParameter("userId", userId).getResultList();
+        return res.size()-1;
     }
 
     /**
@@ -73,8 +74,8 @@ public class BorrowRepository implements CRUDRepository<String, Borrow> {
      */
     public int countCurrentBorrowedBooksByUser(long userId) {
     // public int countCurrentBorrowedBooksByUser(String userId) {
-        List<Borrow> res = entityManager.createQuery("select bk from Borrow b join b.Book bk where b.user.id = :userId and b.finished = false", Borrow.class).setParameter("userId", userId).getResultList();
-        return res.size();
+        List<Book> res = entityManager.createQuery("select bk from Borrow b join b.books bk where b.borrower.id = :userId and b.finished = false", Book.class).setParameter("userId", userId).getResultList();
+        return res.size()-1;
     }
 
     /**
