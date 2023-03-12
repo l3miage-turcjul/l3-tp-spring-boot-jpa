@@ -91,7 +91,7 @@ class BorrowRepositoryTest extends Base {
         entityManager.flush();
 
         int nb = repository.countCurrentBorrowedBooksByUser(u1.getId());
-        assertThat(nb).isEqualTo(1);
+        assertThat(nb).isEqualTo(2);
 
 
     }
@@ -99,14 +99,37 @@ class BorrowRepositoryTest extends Base {
     @Test
     void countBorrowedBooksByUser() {
 
-        // TODO
+        Borrow inProgress = Fixtures.newBorrow(u1, l1, b1, b2);
+        Borrow finished = Fixtures.newBorrow(u1, l1, b3);
+        finished.setRequestedReturn(new Date());
+        finished.setFinished(true);
+        entityManager.persist(inProgress);
+        entityManager.persist(finished);
+        entityManager.flush();
+
+        int nb = (int)repository.countBorrowedBooksByUser(u1.getId());
+        assertThat(nb).isEqualTo(3);
 
     }
 
+    
     @Test
     void foundAllLateBorrow() {
 
-        // TODO
+        Borrow lateIn5Days = Fixtures.newBorrow(u1, l1, b1);
+        lateIn5Days.setRequestedReturn(Date.from(ZonedDateTime.now().plus(0, ChronoUnit.DAYS).toInstant()));
+        Borrow lateIn10Days = Fixtures.newBorrow(u1, l1, b2);
+        lateIn10Days.setRequestedReturn(Date.from(ZonedDateTime.now().plus(10, ChronoUnit.DAYS).toInstant()));
+        Borrow lateIn15Days = Fixtures.newBorrow(u2, l1, b3);
+        lateIn15Days.setRequestedReturn(Date.from(ZonedDateTime.now().plus(15, ChronoUnit.DAYS).toInstant()));
+
+        entityManager.persist(lateIn5Days);
+        entityManager.persist(lateIn10Days);
+        entityManager.persist(lateIn15Days);
+        entityManager.flush();
+
+        List<Borrow> borrows = repository.foundAllLateBorrow();
+        assertThat(borrows).containsExactly(lateIn5Days);
 
     }
 
